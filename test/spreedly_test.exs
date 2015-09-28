@@ -1,5 +1,5 @@
 defmodule SpreedlyTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Spreedly
 
   test "the truth" do
