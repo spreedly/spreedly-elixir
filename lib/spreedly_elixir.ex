@@ -1,0 +1,2 @@
+defmodule Spreedly do
+end
