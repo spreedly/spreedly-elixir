@@ -1,6 +1,8 @@
 defmodule Spreedly.Environment do
 
   defstruct [ :environment_key, :access_secret ]
+
+  import XmlBuilder
   alias Spreedly.Environment
 
   def new(environment_key, access_secret) do
@@ -20,11 +22,9 @@ defmodule Spreedly.Environment do
   end
 
   defp add_gateway_body(gateway_type) do
-    """
-    <gateway>
-      <gateway_type>#{gateway_type}</gateway_type>
-    </gateway>
-    """
+    element(:gateway, gateway_type: gateway_type)
+    |> generate
+  end
   end
 
   defp xml_errors(xml) do
