@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :spreedly_elixir, key: :value
+#     config :spreedly, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:spreedly_elixir, :key)
+#     Application.get_env(:spreedly, :key)
 #
 # Or configure a 3rd-party app:
 #
@@ -27,4 +27,5 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+
+import_config "#{Mix.env}.exs"

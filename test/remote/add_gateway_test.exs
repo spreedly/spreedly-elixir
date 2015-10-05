@@ -2,11 +2,35 @@ defmodule Remote.AddGatewayTest do
   @moduletag [:remote]
   use ExUnit.Case, async: true
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  alias Spreedly.Environment
+
+  test "invalid credentials" do
+    bogus_env = Environment.new("invalid", "credentials")
+    { :error, message } = Spreedly.Environment.add_gateway(bogus_env, :test)
+    assert message =~ "Unable to authenticate"
   end
 
-  test "additional truth" do
-    assert 1 + 1 == 2
+  test "non existent gateway type" do
+    { :error, message } = Environment.add_gateway(env, :nonexistent_type)
+    assert message == "The gateway_type parameter is invalid."
   end
+
+  test "paid account required" do
+    { :error, message } = Environment.add_gateway(env, :sage)
+    assert message =~ "has not been activated for real transactions"
+  end
+
+  test "add test gateway" do
+    {:ok, gateway } = Environment.add_gateway(env, :test)
+
+    assert "test" == gateway.gateway_type
+    assert "retained" == gateway.state
+    assert "Spreedly Test" == gateway.name
+    assert gateway.token
+  end
+
+  defp env do
+    Environment.new(Application.get_env(:spreedly, :environment_key), Application.get_env(:spreedly, :access_secret))
+  end
+
 end
