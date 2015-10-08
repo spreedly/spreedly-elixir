@@ -6,12 +6,12 @@ defmodule Remote.VerifyTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, reason } = Spreedly.Environment.verify(bogus_env, "gateway_token", "payment_method_token")
+    { :error, reason } = Environment.verify(bogus_env, "gateway_token", "payment_method_token")
     assert reason =~ "Unable to authenticate"
   end
 
   test "payment method not found" do
-    { :error, reason } = Spreedly.Environment.verify(env, create_test_gateway.token, "unknown_card")
+    { :error, reason } = Environment.verify(env, create_test_gateway.token, "unknown_card")
     assert reason =~ "There is no payment method"
   end
 

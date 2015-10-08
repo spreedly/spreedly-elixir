@@ -8,6 +8,10 @@ defmodule Spreedly.URL do
     "#{base_url}/gateways/#{gateway_token}/verify.xml"
   end
 
+  def add_payment_method_url do
+    "#{base_url}/payment_methods.xml"
+  end
+
   defp base_url do
     "https://core.spreedly.com/v1"
   end

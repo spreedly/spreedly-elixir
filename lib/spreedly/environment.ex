@@ -21,6 +21,17 @@ defmodule Spreedly.Environment do
     end
   end
 
+  def add_credit_card(env, options) do
+    case HTTPoison.post(add_payment_method_url, add_credit_card_body(options), headers(env)) do
+      {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [401, 422, 402] ->
+        { :error, body |> xml_errors }
+      {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [200, 201] ->
+        { :ok, Spreedly.AddPaymentMethod.new_from_xml(body) }
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect reason
+    end
+  end
+
   def verify(env, gateway_token, payment_method_token) do
     case HTTPoison.post(verify_url(gateway_token), verify_body(payment_method_token), headers(env)) do
       {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [401, 422, 402] ->
@@ -34,6 +45,21 @@ defmodule Spreedly.Environment do
   defp add_gateway_body(gateway_type) do
     element(:gateway, gateway_type: gateway_type)
     |> generate
+  end
+
+  defp add_credit_card_body(options) do
+    element(
+      payment_method: [
+        email: options[:email],
+        credit_card: add(~w(first_name last_name month year number verification_value)a, options)
+      ])
+    |> generate
+  end
+
+  defp add(symbols, options) do
+    symbols |> Enum.map fn(each) ->
+      { each, options[each] }
+    end
   end
 
   defp verify_body(payment_method_token) do
