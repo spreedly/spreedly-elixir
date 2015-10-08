@@ -6,7 +6,7 @@ defmodule Spreedly.CreditCard do
     country phone_number company storage_state)a
 
   def new_from_xml(xml) do
-    XML.into_struct(xml, %Spreedly.CreditCard{})
+    XML.into_struct(xml, __MODULE__)
   end
 
 end

@@ -16,9 +16,9 @@ defmodule XML do
     |> List.first
   end
 
-  def into_struct(xml, struct, excluded \\ []) do
-    keys = Map.from_struct(struct) |> Map.keys |> Enum.reject(&(&1 in excluded))
-    Enum.reduce(keys, struct, fn(key, acc) ->
+  def into_struct(xml, module, excluded \\ []) do
+    keys = module |> struct |> Map.from_struct |> Map.keys |> Enum.reject(&(&1 in excluded)) 
+    Enum.reduce(keys, struct(module), fn(key, acc) ->
       Map.update!(acc, key, fn(_) ->
         XML.retrieve_first(xml, "//#{key}")
       end)
