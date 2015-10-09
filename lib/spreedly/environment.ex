@@ -48,16 +48,18 @@ defmodule Spreedly.Environment do
   end
 
   defp add_credit_card_body(options) do
+    card_fields = ~w(first_name last_name full_name month year number verification_value address1 address2 city state zip country phone_number company)a
+
     element(
       payment_method: [
-        email: options[:email],
-        credit_card: add(~w(first_name last_name month year number verification_value)a, options)
+        add(~w(email retained data)a, options),
+        credit_card: add(card_fields, options)
       ])
     |> generate
   end
 
   defp add(symbols, options) do
-    symbols |> Enum.map fn(each) ->
+    symbols |> Enum.filter_map &(options[&1]), fn(each) ->
       { each, options[each] }
     end
   end

@@ -29,12 +29,21 @@ defmodule Remote.AddCreditCardTest do
     assert trans.token
     assert trans.payment_method.token != trans.token
     assert "cached" == trans.payment_method.storage_state
+    assert trans.succeeded == true
+    assert trans.retained == false
   end
 
   test "retain on create" do
+    {:ok, trans } = Environment.add_credit_card(env, card_deets(retained: true))
+    assert "retained" == trans.payment_method.storage_state
   end
 
   test "add using full name" do
+    {:ok, trans } = Environment.add_credit_card(env, card_deets(full_name: "Kvothe OFerglintine", first_name: nil, last_name: nil))
+
+    assert "Kvothe OFerglintine" == trans.payment_method.full_name
+    assert "Kvothe" == trans.payment_method.first_name
+    assert "OFerglintine" == trans.payment_method.last_name
   end
 
   defp env do

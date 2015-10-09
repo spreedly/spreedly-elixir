@@ -20,9 +20,13 @@ defmodule XML do
     keys = module |> struct |> Map.from_struct |> Map.keys |> Enum.reject(&(&1 in excluded)) 
     Enum.reduce(keys, struct(module), fn(key, acc) ->
       Map.update!(acc, key, fn(_) ->
-        XML.retrieve_first(xml, "//#{key}")
+        XML.retrieve_first(xml, "//#{key}") |> cast_value
       end)
     end)
   end
+
+  defp cast_value("true"), do: true
+  defp cast_value("false"), do: false
+  defp cast_value(value), do: value
 
 end
