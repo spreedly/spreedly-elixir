@@ -1,7 +1,7 @@
 defmodule Remote.FindTransactionTest do
   @moduletag [:remote]
   use ExUnit.Case, async: true
-  # alias Spreedly.Environment
+  alias Spreedly.Environment
 
   test "invalid credentials" do
     # bogus_env = Environment.new("invalid", "credentials")
