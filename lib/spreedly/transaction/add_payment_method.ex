@@ -1,6 +1,6 @@
 defmodule Spreedly.Transaction.AddPaymentMethod do
 
-  defstruct ~w(token succeeded state message retained payment_method)a
+  defstruct ~w(token succeeded state message retained payment_method transaction_type xml)a
 
   def new_from_xml(xml) do
     transaction = XML.into_struct(xml, __MODULE__, [:payment_method])

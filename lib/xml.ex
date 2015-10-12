@@ -17,8 +17,9 @@ defmodule XML do
   end
 
   def into_struct(xml, module, excluded \\ []) do
-    keys = module |> struct |> Map.from_struct |> Map.keys |> Enum.reject(&(&1 in excluded)) 
-    Enum.reduce(keys, struct(module), fn(key, acc) ->
+    keys = module |> struct |> Map.from_struct |> Map.keys |> Enum.reject(&(&1 in [ :xml | excluded ])) 
+    model = %{ struct(module) | xml: xml_string_for(xml) }
+    Enum.reduce(keys, model, fn(key, acc) ->
       Map.update!(acc, key, fn(_) ->
         XML.retrieve_first(xml, "//#{key}") |> cast_value
       end)
@@ -28,5 +29,7 @@ defmodule XML do
   defp cast_value("true"), do: true
   defp cast_value("false"), do: false
   defp cast_value(value), do: value
+  defp xml_string_for(xml) when is_binary(xml), do: xml
+  defp xml_string_for(xml), do: nil
 
 end

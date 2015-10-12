@@ -26,7 +26,7 @@ defmodule Spreedly.Environment do
       {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [401, 422, 402] ->
         { :error, body |> xml_errors }
       {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [200, 201] ->
-        { :ok, Spreedly.Transaction.AddPaymentMethod.new_from_xml(body) }
+        { :ok, Spreedly.Transaction.new_from_xml(body) }
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
@@ -37,7 +37,17 @@ defmodule Spreedly.Environment do
       {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [401, 422, 402, 404] ->
         { :error, body |> xml_errors }
       {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [200, 201] ->
-        { :ok, Spreedly.Transaction.Verify.new_from_xml(body) }
+        { :ok, Spreedly.Transaction.new_from_xml(body) }
+      {:error, %HTTPoison.Error{reason: reason}} -> { :error, reason }
+    end
+  end
+
+  def find_transaction(env, transaction_token) do
+    case HTTPoison.get(find_transaction_url(transaction_token), headers(env)) do
+      {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [401, 422, 402, 404] ->
+        { :error, body |> xml_errors }
+      {:ok, %HTTPoison.Response{status_code: code, body: body}} when code in [200, 201] ->
+        { :ok, Spreedly.Transaction.new_from_xml(body) }
       {:error, %HTTPoison.Error{reason: reason}} -> { :error, reason }
     end
   end

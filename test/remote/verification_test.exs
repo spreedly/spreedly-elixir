@@ -1,4 +1,4 @@
-defmodule Remote.VerifyTest do
+defmodule Remote.VerificationTest do
   @moduletag [:remote]
   use ExUnit.Case, async: true
 
