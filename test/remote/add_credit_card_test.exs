@@ -1,8 +1,5 @@
 defmodule Remote.AddCreditCardTest do
-  @moduletag [:remote]
-  use ExUnit.Case, async: true
-
-  alias Spreedly.Environment
+  use Remote.EnvironmentCase
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
@@ -44,18 +41,6 @@ defmodule Remote.AddCreditCardTest do
     assert "Kvothe OFerglintine" == trans.payment_method.full_name
     assert "Kvothe" == trans.payment_method.first_name
     assert "OFerglintine" == trans.payment_method.last_name
-  end
-
-  defp env do
-    Environment.new(Application.get_env(:spreedly, :environment_key), Application.get_env(:spreedly, :access_secret))
-  end
-
-  defp card_deets(options \\ []) do
-    default_deets = %{
-      email: "matrim@wot.com", number: "5555555555554444", month: 1, year: 2019,
-      last_name: "Cauthon", first_name: "Matrim"
-    }
-    Dict.merge(default_deets, options)
   end
 
 end

@@ -1,7 +1,5 @@
 defmodule Remote.FindTransactionTest do
-  @moduletag [:remote]
-  use ExUnit.Case, async: true
-  alias Spreedly.Environment
+  use Remote.EnvironmentCase
   alias Spreedly.Transaction.Verification
 
   test "invalid credentials" do
@@ -18,7 +16,7 @@ defmodule Remote.FindTransactionTest do
   test "find verify transaction" do
     {:ok, %Verification{token: token} } = Environment.verify(env, create_test_gateway.token, create_test_card.token)
     {:ok, trans } = Environment.find_transaction(env, token)
-    assert trans.payment_method.last_name == "Drago"
+    assert trans.payment_method.last_name == "Cauthon"
     assert trans.on_test_gateway == true
     assert trans.__struct__ == Spreedly.Transaction.Verification
   end
@@ -30,21 +28,7 @@ defmodule Remote.FindTransactionTest do
     assert trans.__struct__ == Spreedly.Transaction.AddPaymentMethod
   end
 
-  defp env do
-    Environment.new(Application.get_env(:spreedly, :environment_key), Application.get_env(:spreedly, :access_secret))
-  end
-
-  defp create_test_gateway do
-    { :ok, gateway } = Environment.add_gateway(env, :test)
-    gateway
-  end
-
-  defp create_test_card do
-    create_test_card_transaction.payment_method
-  end
-
   defp create_test_card_transaction do
-    card_deets = %{number: "4111111111111111", month: 1, year: 2019, last_name: "Drago", first_name: "Ivan"}
     { :ok, transaction } = Environment.add_credit_card(env, card_deets)
     transaction
   end

@@ -1,8 +1,5 @@
 defmodule Remote.AddGatewayTest do
-  @moduletag [:remote]
-  use ExUnit.Case, async: true
-
-  alias Spreedly.Environment
+  use Remote.EnvironmentCase
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
@@ -27,10 +24,6 @@ defmodule Remote.AddGatewayTest do
     assert "retained" == gateway.state
     assert "Spreedly Test" == gateway.name
     assert gateway.token
-  end
-
-  defp env do
-    Environment.new(Application.get_env(:spreedly, :environment_key), Application.get_env(:spreedly, :access_secret))
   end
 
 end
