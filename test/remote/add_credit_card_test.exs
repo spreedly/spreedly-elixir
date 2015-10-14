@@ -19,6 +19,7 @@ defmodule Remote.AddCreditCardTest do
 
   test "successfully add" do
     {:ok, trans } = Environment.add_credit_card(env, card_deets)
+    assert trans.transaction_type == "AddPaymentMethod"
     assert trans.payment_method.first_name == "Matrim"
     assert trans.message == "Succeeded!"
     assert trans.payment_method.number == "XXXX-XXXX-XXXX-4444"
@@ -27,7 +28,7 @@ defmodule Remote.AddCreditCardTest do
     assert trans.payment_method.token != trans.token
     assert "cached" == trans.payment_method.storage_state
     assert trans.succeeded == true
-    assert trans.retained == false
+    assert trans.xml
   end
 
   test "retain on create" do

@@ -15,14 +15,12 @@ defmodule Remote.FindTransactionTest do
   test "find verify transaction" do
     {:ok, trans } = Environment.find_transaction(env, create_verify_transaction.token)
     assert trans.payment_method.last_name == "Cauthon"
-    assert trans.on_test_gateway == true
-    assert trans.__struct__ == Spreedly.Transaction.Verification
+    assert trans.transaction_type == "Verification"
   end
 
   test "find add payment method transaction" do
     {:ok, trans } = Environment.find_transaction(env, create_test_card_transaction.token)
     assert trans.transaction_type == "AddPaymentMethod"
-    assert trans.__struct__ == Spreedly.Transaction.AddPaymentMethod
   end
 
   defp create_test_card_transaction do

@@ -1,7 +1,7 @@
-defmodule Spreedly.CreditCard do
+defmodule Spreedly.PaymentMethod do
 
   defstruct ~w(
-    token email first_name last_name full_name month year number last_four_digits
+    token payment_method_type email first_name last_name full_name month year number last_four_digits
     first_six_digits card_type verification_value address1 address2 city state zip
     country phone_number company storage_state xml)a
 
