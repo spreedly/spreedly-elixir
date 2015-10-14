@@ -24,6 +24,11 @@ defmodule Spreedly.Environment do
     |> response(Spreedly.Transaction)
   end
 
+  def find_gateway(env, gateway_token) do
+    HTTPoison.get(find_gateway_url(gateway_token), headers(env))
+    |> response(Spreedly.Gateway)
+  end
+
   def find_transaction(env, transaction_token) do
     HTTPoison.get(find_transaction_url(transaction_token), headers(env))
     |> response(Spreedly.Transaction)
