@@ -27,6 +27,11 @@ defmodule Remote.EnvironmentCase do
         { :ok, transaction } = Environment.add_credit_card(env, card_deets)
         transaction.payment_method
       end
+
+      defp create_declined_test_card do
+        { :ok, transaction } = Environment.add_credit_card(env, card_deets(number: "4012888888881881"))
+        transaction.payment_method
+      end
     end
   end
 

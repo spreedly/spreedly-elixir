@@ -21,10 +21,15 @@ defmodule Remote.VerificationTest do
     {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token)
     assert trans.succeeded == true
     assert trans.payment_method.first_name == "Matrim"
+    assert trans.transaction_type == "Verification"
   end
 
-  @tag skip: "Not implemented yet"
   test "failed verify" do
+    {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_declined_test_card.token)
+    assert trans.succeeded == false
+    assert trans.state == "gateway_processing_failed"
+    assert trans.payment_method.first_name == "Matrim"
+    assert trans.message == "Unable to process the verify transaction."
   end
 
 end

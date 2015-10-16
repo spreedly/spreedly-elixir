@@ -41,13 +41,29 @@ defmodule Spreedly.Environment do
 
   defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, return_struct) do
     cond do
-      code in [401, 422, 402, 404] -> { :error, body |> xml_errors }
-      code in [200, 201] -> { :ok, return_struct.new_from_xml(body) }
+      code in [401, 402, 404] -> error_response(body)
+      code in [422] -> unprocessable(body, return_struct)
+      code in [200, 201] -> ok_response(body, return_struct)
     end
   end
 
   defp response({:error, %HTTPoison.Error{reason: reason}}, _) do
     { :error, reason }
+  end
+
+  defp unprocessable(body, return_struct) do
+    case XPath.select(body, "//errors/error") do
+      [] -> ok_response(body, return_struct)
+      _ -> error_response(body)
+    end
+  end
+
+  defp error_response(body) do
+    { :error, body |> xml_errors }
+  end
+
+  defp ok_response(body, return_struct) do
+    { :ok, return_struct.new_from_xml(body) }
   end
 
   defp xml_errors(xml) do
