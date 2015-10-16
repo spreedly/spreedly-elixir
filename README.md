@@ -4,19 +4,19 @@ A wrapper of the Spreedly API.
 
 ## Installation
 
-The package can be installed as:
+The package can be installed by adding spreedly to your list of dependencies in `mix.exs`:
 
-  1. Add spreedly to your list of dependencies in `mix.exs`:
-
-        def deps do
-          [{:spreedly, "~> 0.0.1"}]
-        end
+```elixir
+def deps do
+  [{:spreedly, "~> 0.0.1"}]
+end
+```
 
 ## Usage
 
 API interactions happen on a `Spreedly.Environment`:
 
-```
+```elixir
 env = Spreedly.Environment.new(environment_key, access_secret)
 ```
 
@@ -24,7 +24,7 @@ Once you have an environment, you can use it to interact with the API.
 
 ### Find Transaction
 
-```
+```elixir
 iex> Spreedly.Environment.find_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
 {:ok,
  %Spreedly.Transaction{message: "Unable to process the verify transaction.",
@@ -46,7 +46,7 @@ iex> Spreedly.Environment.find_transaction(env, "NonExistentToken")
 
 ### Verify a credit card
 
-```
+```elixir
 iex> Environment.verify(env, "R8AKGmYwkZrrj2BpWcPgICF1eZT", "RjTFFZQp4MrH2HJbTEQuNfPwKVG")
 {:ok,
  %Spreedly.Transaction{message: "Succeeded!",
@@ -64,11 +64,11 @@ iex> Environment.verify(env, "R8AKGmYwkZrrj2BpWcPgICF1eZT", "RjTFFZQp4MrH2HJbTEQ
 
 You can pattern match on the response:
 
-```
-case Environment.verify(env, "R8AKGmYwkZrrj2BpWcPgICF1eZT", "RjTFFZQp4MrH2HJbTEQuNfPwKVG") do
-  {:ok, %Spreedly.Transaction{succeeded: true} ->
+```elixir
+case Spreedly.Environment.verify(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK") do
+  {:ok, %Spreedly.Transaction{succeeded: true}} ->
     IO.puts "Success!"
-  {:ok, %Spreedly.Transaction{succeeded: false, message: message} ->
+  {:ok, %Spreedly.Transaction{succeeded: false, message: message}} ->
     IO.puts "Declined - #{message}!"
   {:error, reason} ->
     IO.inspect reason
