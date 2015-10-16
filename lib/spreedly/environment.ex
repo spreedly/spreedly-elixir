@@ -29,6 +29,11 @@ defmodule Spreedly.Environment do
     |> response(Spreedly.Gateway)
   end
 
+  def find_payment_method(env, payment_method_token) do
+    HTTPoison.get(find_payment_method_url(payment_method_token), headers(env))
+    |> response(Spreedly.PaymentMethod)
+  end
+
   def find_transaction(env, transaction_token) do
     HTTPoison.get(find_transaction_url(transaction_token), headers(env))
     |> response(Spreedly.Transaction)
