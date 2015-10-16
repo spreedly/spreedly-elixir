@@ -3,13 +3,13 @@ defmodule Remote.FindTransactionTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, message } = Environment.find_transaction(bogus_env, "SomeToken")
-    assert message =~ "Unable to authenticate"
+    { :error, reason } = Environment.find_transaction(bogus_env, "SomeToken")
+    assert reason =~ "Unable to authenticate"
   end
 
   test "non existent transaction" do
-    { :error, message } = Environment.find_transaction(env, "NonExistentToken")
-    assert message =~ "Unable to find the transaction"
+    { :error, reason } = Environment.find_transaction(env, "NonExistentToken")
+    assert reason =~ "Unable to find the transaction"
   end
 
   test "find verify transaction" do

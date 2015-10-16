@@ -3,13 +3,13 @@ defmodule Remote.FindPaymentMethodTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, message } = Environment.find_payment_method(bogus_env, "SomeToken")
-    assert message =~ "Unable to authenticate"
+    { :error, reason } = Environment.find_payment_method(bogus_env, "SomeToken")
+    assert reason =~ "Unable to authenticate"
   end
 
   test "non existent transaction" do
-    { :error, message } = Environment.find_payment_method(env, "NonExistentToken")
-    assert message =~ "Unable to find the specified payment method"
+    { :error, reason } = Environment.find_payment_method(env, "NonExistentToken")
+    assert reason =~ "Unable to find the specified payment method"
   end
 
   test "find add payment method" do
