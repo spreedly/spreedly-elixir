@@ -14,7 +14,7 @@ end
 
 ## Usage
 
-API interactions happen on a `Spreedly.Environment`:
+API interactions happen on a `Spreedly.Environment`.
 
 ```elixir
 env = Spreedly.Environment.new(environment_key, access_secret)
@@ -22,7 +22,22 @@ env = Spreedly.Environment.new(environment_key, access_secret)
 
 Once you have an environment, you can use it to interact with the API.
 
-### Find Transaction
+### Verify a credit card
+
+You can pattern match on the response.
+
+```elixir
+case Spreedly.Environment.verify(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK") do
+  {:ok, %Spreedly.Transaction{succeeded: true}} ->
+    IO.puts "Success!"
+  {:ok, %Spreedly.Transaction{succeeded: false, message: message}} ->
+    IO.puts "Declined - #{message}!"
+  {:error, reason} ->
+    IO.inspect reason
+end
+```
+
+### Find a Transaction
 
 ```elixir
 iex> Spreedly.Environment.find_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
@@ -44,33 +59,3 @@ iex> Spreedly.Environment.find_transaction(env, "NonExistentToken")
 {:error, "Unable to find the transaction NonExistentToken."}
 ```
 
-### Verify a credit card
-
-```elixir
-iex> Environment.verify(env, "R8AKGmYwkZrrj2BpWcPgICF1eZT", "RjTFFZQp4MrH2HJbTEQuNfPwKVG")
-{:ok,
- %Spreedly.Transaction{message: "Succeeded!",
-  payment_method: %Spreedly.PaymentMethod{address1: nil, address2: nil,
-   card_type: "master", city: nil, company: nil, country: nil,
-   email: "matrim@wot.com", first_name: "Matrim", first_six_digits: "555555",
-   full_name: "Matrim Cauthon", last_four_digits: "4444", last_name: "Cauthon",
-   month: "1", number: "XXXX-XXXX-XXXX-4444",
-   payment_method_type: "credit_card", phone_number: nil, state: nil,
-   storage_state: "cached", token: "RjTFFZQp4MrH2HJbTEQuNfPwKVG",
-   verification_value: nil, xml: nil, year: "2019", zip: nil},
-  state: "succeeded", succeeded: true, token: "RTRa5fNadKLw8QgjCg4pAKsFLYX",
-  transaction_type: "Verification", xml: "<transaction>..." }}
-```
-
-You can pattern match on the response:
-
-```elixir
-case Spreedly.Environment.verify(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK") do
-  {:ok, %Spreedly.Transaction{succeeded: true}} ->
-    IO.puts "Success!"
-  {:ok, %Spreedly.Transaction{succeeded: false, message: message}} ->
-    IO.puts "Declined - #{message}!"
-  {:error, reason} ->
-    IO.inspect reason
-end
-```
