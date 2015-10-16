@@ -30,6 +30,6 @@ defmodule XML do
   defp cast_value("false"), do: false
   defp cast_value(value), do: value
   defp xml_string_for(xml) when is_binary(xml), do: xml
-  defp xml_string_for(xml), do: nil
+  defp xml_string_for(_), do: nil
 
 end
