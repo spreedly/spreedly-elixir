@@ -1,4 +1,4 @@
-defmodule Remote.EnvironmentCase do
+defmodule Remote.Environment.Case do
   defmacro __using__(_opts) do
     quote do
       @moduletag [:remote]
@@ -7,11 +7,11 @@ defmodule Remote.EnvironmentCase do
       alias Spreedly.Environment
 
       defp card_deets(options \\ []) do
-        default_deets = %{
+        default_deets = [
           email: "matrim@wot.com", number: "5555555555554444", month: 1, year: 2019,
           last_name: "Cauthon", first_name: "Matrim"
-        }
-        Dict.merge(default_deets, options)
+        ]
+        Keyword.merge(default_deets, options)
       end
 
       defp env do

@@ -1,5 +1,5 @@
 defmodule Remote.AddGatewayTest do
-  use Remote.EnvironmentCase
+  use Remote.Environment.Case
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")

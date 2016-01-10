@@ -1,27 +1,27 @@
 defmodule Spreedly.URL do
 
   def add_gateway_url do
-    "#{base_url}/gateways.xml"
+    "#{base_url}/gateways.json"
   end
 
   def verify_url(gateway_token) do
-    "#{base_url}/gateways/#{gateway_token}/verify.xml"
+    "#{base_url}/gateways/#{gateway_token}/verify.json"
   end
 
-  def find_gateway_url(token) do
-    "#{base_url}/gateways/#{token}.xml"
+  def show_gateway_url(token) do
+    "#{base_url}/gateways/#{token}.json"
   end
 
-  def find_payment_method_url(token) do
-    "#{base_url}/payment_methods/#{token}.xml"
+  def show_payment_method_url(token) do
+    "#{base_url}/payment_methods/#{token}.json"
   end
 
-  def find_transaction_url(token) do
-    "#{base_url}/transactions/#{token}.xml"
+  def show_transaction_url(token) do
+    "#{base_url}/transactions/#{token}.json"
   end
 
   def add_payment_method_url do
-    "#{base_url}/payment_methods.xml"
+    "#{base_url}/payment_methods.json"
   end
 
   defp base_url do
