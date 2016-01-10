@@ -19,8 +19,13 @@ defmodule Spreedly.Environment do
     |> response(:transaction)
   end
 
-  def verify(env, gateway_token, payment_method_token) do
-    HTTPoison.post(verify_url(gateway_token), verify_body(payment_method_token), headers(env))
+  def purchase(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
+    HTTPoison.post(purchase_url(gateway_token), purchase_body(payment_method_token, amount, currency_code, options), headers(env))
+    |> response(:transaction)
+  end
+
+  def verify(env, gateway_token, payment_method_token, currency_code \\ nil, options \\ []) do
+    HTTPoison.post(verify_url(gateway_token), verify_body(payment_method_token, currency_code, options), headers(env))
     |> response(:transaction)
   end
 

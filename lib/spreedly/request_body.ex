@@ -23,22 +23,27 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
-  def verify_body(payment_method_token, options \\ []) do
+  def purchase_body(payment_method_token, amount, currency_code, options) do
     %{
       transaction:
       %{
         payment_method_token: payment_method_token,
-        retain_on_success: options[:retain_on_success],
-        currency_code: options[:currency_code]
-      }
+        amount: amount,
+        currency_code: currency_code
+      } |> Map.merge(Map.new(options))
     }
     |> Poison.encode!
   end
 
-  defp add(symbols, options) do
-    symbols |> Enum.filter_map(&(options[&1]), fn(each) ->
-      { each, options[each] }
-    end)
+  def verify_body(payment_method_token, currency_code, options) do
+    %{
+      transaction:
+      %{
+        payment_method_token: payment_method_token,
+        currency_code: currency_code,
+      } |> Map.merge(Map.new(options))
+    }
+    |> Poison.encode!
   end
 
   defp credit_card_fields(options) do

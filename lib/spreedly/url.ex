@@ -4,6 +4,10 @@ defmodule Spreedly.URL do
     "#{base_url}/gateways.json"
   end
 
+  def purchase_url(gateway_token) do
+    "#{base_url}/gateways/#{gateway_token}/purchase.json"
+  end
+
   def verify_url(gateway_token) do
     "#{base_url}/gateways/#{gateway_token}/verify.json"
   end

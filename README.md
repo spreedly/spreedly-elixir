@@ -22,12 +22,12 @@ env = Spreedly.Environment.new(environment_key, access_secret)
 
 Once you have an environment, you can use it to interact with the API.
 
-### Verify a credit card
+### Run a purchase using a credit card
 
 You can pattern match on the response.
 
 ```elixir
-case Spreedly.Environment.verify(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK") do
+case Spreedly.Environment.purchase(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK", 2344) do
   {:ok, %{succeeded: true}} ->
     IO.puts "Success!"
   {:ok, %{succeeded: false, message: message}} ->

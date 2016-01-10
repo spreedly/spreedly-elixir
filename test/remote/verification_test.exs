@@ -17,11 +17,30 @@ defmodule Remote.VerificationTest do
     assert reason == "Unable to find the specified gateway."
   end
 
+  test "bogus currency" do
+    {:error, reason } = Environment.verify(env, create_test_gateway.token, create_test_card.token, "HUH")
+    assert reason == "Currency code is invalid"
+  end
+
   test "successful verify" do
     {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token)
     assert trans.succeeded == true
     assert trans.payment_method.first_name == "Matrim"
     assert trans.transaction_type == "Verification"
+  end
+
+  test "successful verify with legitimate currency_code" do
+    {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token, "GBP")
+    assert trans.succeeded == true
+    assert trans.currency_code == "GBP"
+  end
+
+  test "successful purchase with options" do
+    {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token, "GBP", order_id: "44", description: "Wow")
+    assert trans.succeeded == true
+    assert trans.description == "Wow"
+    assert trans.order_id == "44"
+    assert trans.currency_code == "GBP"
   end
 
   test "failed verify" do
