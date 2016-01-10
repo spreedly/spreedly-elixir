@@ -26,7 +26,7 @@ defmodule Spreedly.Environment do
 
   def show_gateway(env, gateway_token) do
     HTTPoison.get(show_gateway_url(gateway_token), headers(env))
-    |> response(:gateway) 
+    |> response(:gateway)
   end
 
   def show_payment_method(env, payment_method_token) do
@@ -39,11 +39,18 @@ defmodule Spreedly.Environment do
     |> response(:transaction)
   end
 
-  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, root_element) do
-    cond do
-      code in [401, 402, 404] -> error_response(body)
-      code in [422] -> unprocessable(body, root_element)
-      code in [200, 201] -> ok_response(body, root_element)
+
+  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, _) when code in [401, 402, 404] do
+    error_response(body)
+  end
+  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, root_element) when code in [200, 201] do
+    ok_response(body, root_element)
+  end
+  defp response({:ok, %HTTPoison.Response{status_code: 422, body: body}}, root_element) do
+    if error_body?(body) do
+      error_response(body)
+    else
+      ok_response(body, root_element)
     end
   end
 
@@ -51,12 +58,8 @@ defmodule Spreedly.Environment do
     { :error, reason }
   end
 
-  defp unprocessable(body, root_element) do
-    parsed = Poison.decode!(body, keys: :atoms)
-    case parsed[:errors] do
-      nil -> ok_response(body, root_element)
-      _   -> error_response(body)
-    end
+  defp error_body?(body) do
+    parse(body) |> Map.has_key?(:errors)
   end
 
   defp error_response(body) do
@@ -64,8 +67,8 @@ defmodule Spreedly.Environment do
   end
 
   defp extract_reason(body) do
-    Poison.decode!(body)["errors"]
-    |> Enum.map_join("\n", &(&1["message"]))
+    parse(body)[:errors]
+    |> Enum.map_join("\n", &(&1.message))
   end
 
   defp ok_response(body, root_element) do
@@ -73,8 +76,12 @@ defmodule Spreedly.Environment do
   end
 
   defp map_from(body, root_element) do
-    Poison.decode!(body, keys: :atoms)[root_element]
+    parse(body)[root_element]
     |> Map.put(:response_body, body)
+  end
+
+  defp parse(body) do
+    Poison.decode!(body, keys: :atoms)
   end
 
   defp headers(env) do
