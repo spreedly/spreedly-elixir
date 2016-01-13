@@ -28,8 +28,4 @@ defmodule Remote.ShowTransactionTest do
     trans
   end
 
-  defp create_verify_transaction do
-    {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token)
-    trans
-  end
 end

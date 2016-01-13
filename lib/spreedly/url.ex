@@ -24,6 +24,10 @@ defmodule Spreedly.URL do
     "#{base_url}/transactions/#{token}.json"
   end
 
+  def show_transcript_url(token) do
+    "#{base_url}/transactions/#{token}/transcript"
+  end
+
   def add_payment_method_url do
     "#{base_url}/payment_methods.json"
   end

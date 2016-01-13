@@ -32,6 +32,12 @@ defmodule Remote.Environment.Case do
         { :ok, transaction } = Environment.add_credit_card(env, card_deets(number: "4012888888881881"))
         transaction.payment_method
       end
+
+      defp create_verify_transaction do
+        {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token)
+        trans
+      end
+
     end
   end
 

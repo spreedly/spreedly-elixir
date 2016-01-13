@@ -44,8 +44,12 @@ defmodule Spreedly.Environment do
     |> response
   end
 
+  def show_transcript(env, transaction_token) do
+    HTTPoison.get(show_transcript_url(transaction_token), headers(env))
+    |> transcript_response
+  end
 
-  defp response({:error, %HTTPoison.Error{reason: reason}}, _) do
+  defp response({:error, %HTTPoison.Error{reason: reason}}) do
     { :error, reason }
   end
   defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}) when code in [401, 402, 404] do
@@ -89,5 +93,9 @@ defmodule Spreedly.Environment do
       "Content-Type": "application/json"
     ]
   end
+
+  defp transcript_response({:error, %HTTPoison.Error{reason: reason}}), do: { :error, reason }
+  defp transcript_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}), do: { :ok, body }
+  defp transcript_response({:ok, %HTTPoison.Response{status_code: _, body: body}}), do: { :error, body }
 
 end
