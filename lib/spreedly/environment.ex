@@ -11,61 +11,55 @@ defmodule Spreedly.Environment do
 
   def add_gateway(env, gateway_type) do
     HTTPoison.post(add_gateway_url, add_gateway_body(gateway_type), headers(env))
-    |> response(:gateway)
+    |> response
   end
 
   def add_credit_card(env, options) do
     HTTPoison.post(add_payment_method_url, add_credit_card_body(options), headers(env))
-    |> response(:transaction)
+    |> response
   end
 
   def purchase(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
     HTTPoison.post(purchase_url(gateway_token), purchase_body(payment_method_token, amount, currency_code, options), headers(env))
-    |> response(:transaction)
+    |> response
   end
 
   def verify(env, gateway_token, payment_method_token, currency_code \\ nil, options \\ []) do
     HTTPoison.post(verify_url(gateway_token), verify_body(payment_method_token, currency_code, options), headers(env))
-    |> response(:transaction)
+    |> response
   end
 
   def show_gateway(env, gateway_token) do
     HTTPoison.get(show_gateway_url(gateway_token), headers(env))
-    |> response(:gateway)
+    |> response
   end
 
   def show_payment_method(env, payment_method_token) do
     HTTPoison.get(show_payment_method_url(payment_method_token), headers(env))
-    |> response(:payment_method)
+    |> response
   end
 
   def show_transaction(env, transaction_token) do
     HTTPoison.get(show_transaction_url(transaction_token), headers(env))
-    |> response(:transaction)
+    |> response
   end
 
-
-  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, _) when code in [401, 402, 404] do
-    error_response(body)
-  end
-  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}, root_element) when code in [200, 201] do
-    ok_response(body, root_element)
-  end
-  defp response({:ok, %HTTPoison.Response{status_code: 422, body: body}}, root_element) do
-    if error_body?(body) do
-      error_response(body)
-    else
-      ok_response(body, root_element)
-    end
-  end
 
   defp response({:error, %HTTPoison.Error{reason: reason}}, _) do
     { :error, reason }
   end
-
-  defp error_body?(body) do
-    parse(body) |> Map.has_key?(:errors)
+  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}) when code in [401, 402, 404] do
+    error_response(body)
   end
+  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}) when code in [200, 201] do
+    ok_response(body)
+  end
+  defp response({:ok, %HTTPoison.Response{status_code: 422, body: body}}) do
+    unprocessable(body)
+  end
+
+  def unprocessable(body = ~s[{"errors":] <> rest), do: error_response(body)
+  def unprocessable(body), do: ok_response(body)
 
   defp error_response(body) do
     { :error, body |> extract_reason }
@@ -76,13 +70,12 @@ defmodule Spreedly.Environment do
     |> Enum.map_join("\n", &(&1.message))
   end
 
-  defp ok_response(body, root_element) do
-    { :ok, map_from(body, root_element) }
+  defp ok_response(body) do
+    { :ok, map_from(body) }
   end
 
-  defp map_from(body, root_element) do
-    parse(body)[root_element]
-    |> Map.put(:response_body, body)
+  defp map_from(body) do
+    parse(body) |> Map.values |> List.first |> Map.put(:response_body, body)
   end
 
   defp parse(body) do
