@@ -62,7 +62,7 @@ defmodule Spreedly.Environment do
     unprocessable(body)
   end
 
-  def unprocessable(body = ~s[{"errors":] <> rest), do: error_response(body)
+  def unprocessable(body = ~s[{"errors":] <> _rest), do: error_response(body)
   def unprocessable(body), do: ok_response(body)
 
   defp error_response(body) do
