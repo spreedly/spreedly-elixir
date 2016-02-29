@@ -79,7 +79,7 @@ defmodule Spreedly.Environment do
   end
 
   defp map_from(body) do
-    parse(body) |> Map.values |> List.first |> Map.put(:response_body, body)
+    parse(body) |> Map.values |> List.first
   end
 
   defp parse(body) do

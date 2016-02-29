@@ -28,7 +28,6 @@ defmodule Remote.AddCreditCardTest do
     assert trans.payment_method.token != trans.token
     assert "cached" == trans.payment_method.storage_state
     assert trans.succeeded == true
-    assert trans.response_body
   end
 
   test "retain on create" do
