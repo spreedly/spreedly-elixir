@@ -32,6 +32,21 @@ defmodule Spreedly.URL do
     "#{base_url}/payment_methods.json"
   end
 
+  def list_payment_method_transactions_url(token, options) do
+    encoded = URI.encode_query(options)
+    "#{base_url}/payment_methods/#{token}/transactions.json#{params(encoded)}"
+  end
+
+  def list_gateway_transactions_url(token, options) do
+    encoded = URI.encode_query(options)
+    "#{base_url}/gateways/#{token}/transactions.json#{params(encoded)}"
+  end
+
+  defp params(""), do: ""
+  defp params(query_str) do
+    "?#{query_str}"
+  end
+
   defp base_url do
     "https://core.spreedly.com/v1"
   end

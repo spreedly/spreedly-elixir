@@ -49,6 +49,16 @@ defmodule Spreedly.Environment do
     |> transcript_response
   end
 
+  def list_payment_method_transactions(env, payment_method_token, options \\ []) do
+    HTTPoison.get(list_payment_method_transactions_url(payment_method_token, options), headers(env))
+    |> response
+  end
+
+  def list_gateway_transactions(env, gateway_token, options \\ []) do
+    HTTPoison.get(list_gateway_transactions_url(gateway_token, options), headers(env))
+    |> response
+  end
+
   defp response({:error, %HTTPoison.Error{reason: reason}}) do
     { :error, reason }
   end
