@@ -10,6 +10,11 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
+  def add_receiver_body(receiver_type, options) do
+    %{ receiver: receiver_details(receiver_type, options) }
+    |> Poison.encode!
+  end
+
   def add_credit_card_body(options) do
     %{
       payment_method:
@@ -51,5 +56,14 @@ defmodule Spreedly.RequestBody do
     |> Keyword.new(fn (x) -> {x, options[x]} end)
     |> Map.new
   end
+
+  defp receiver_details(:test, options) do
+    %{ receiver_type: :test, hostnames: options[:hostnames] }
+  end
+
+  defp receiver_details(receiver_type, options) do
+    %{ receiver_type: receiver_type }
+  end
+
 
 end

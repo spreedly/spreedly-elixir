@@ -23,6 +23,11 @@ defmodule Remote.Environment.Case do
         gateway
       end
 
+      defp create_test_receiver do
+        { :ok, gateway } = Environment.add_receiver(env, :test, hostnames: "http://posttestserver.com")
+        gateway
+      end
+
       defp create_test_card do
         { :ok, transaction } = Environment.add_credit_card(env, card_deets)
         transaction.payment_method

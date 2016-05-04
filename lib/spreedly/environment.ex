@@ -14,6 +14,11 @@ defmodule Spreedly.Environment do
     |> response
   end
 
+  def add_receiver(env, receiver_type, options \\ []) do
+    HTTPoison.post(add_receiver_url, add_receiver_body(receiver_type, options), headers(env))
+    |> response
+  end
+
   def add_credit_card(env, options) do
     HTTPoison.post(add_payment_method_url, add_credit_card_body(options), headers(env))
     |> response
@@ -31,6 +36,11 @@ defmodule Spreedly.Environment do
 
   def show_gateway(env, gateway_token) do
     HTTPoison.get(show_gateway_url(gateway_token), headers(env))
+    |> response
+  end
+
+  def show_receiver(env, receiver_token) do
+    HTTPoison.get(show_receiver_url(receiver_token), headers(env))
     |> response
   end
 
@@ -68,7 +78,7 @@ defmodule Spreedly.Environment do
   defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}) when code in [200, 201] do
     ok_response(body)
   end
-  defp response({:ok, %HTTPoison.Response{status_code: 422, body: body}}) do
+  defp response({:ok, %HTTPoison.Response{status_code: code, body: body}}) when code in [422, 403] do
     unprocessable(body)
   end
 

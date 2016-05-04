@@ -4,6 +4,10 @@ defmodule Spreedly.URL do
     "#{base_url}/gateways.json"
   end
 
+  def add_receiver_url do
+    "#{base_url}/receivers.json"
+  end
+
   def purchase_url(gateway_token) do
     "#{base_url}/gateways/#{gateway_token}/purchase.json"
   end
@@ -14,6 +18,10 @@ defmodule Spreedly.URL do
 
   def show_gateway_url(token) do
     "#{base_url}/gateways/#{token}.json"
+  end
+
+  def show_receiver_url(token) do
+    "#{base_url}/receivers/#{token}.json"
   end
 
   def show_payment_method_url(token) do
