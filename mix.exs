@@ -3,7 +3,7 @@ defmodule Spreedly.Mixfile do
 
   def project do
     [app: :spreedly,
-     version: "0.1.1",
+     version: "0.1.2",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -47,7 +47,7 @@ defmodule Spreedly.Mixfile do
 
   defp package do
     [
-      maintainers: ["Duff OMelia <duff@omelia.org>"],
+      maintainers: ["Duff O'Melia <duff@omelia.org>"],
       licenses:    ["MIT"],
       links:       %{"GitHub" => "https://github.com/duff/spreedly-elixir"}
     ]
