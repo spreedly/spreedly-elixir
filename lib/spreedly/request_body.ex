@@ -61,7 +61,7 @@ defmodule Spreedly.RequestBody do
     %{ receiver_type: :test, hostnames: options[:hostnames] }
   end
 
-  defp receiver_details(receiver_type, options) do
+  defp receiver_details(receiver_type, _options) do
     %{ receiver_type: receiver_type }
   end
 
