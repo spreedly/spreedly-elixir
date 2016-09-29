@@ -3,7 +3,7 @@ defmodule Spreedly.Mixfile do
 
   def project do
     [app: :spreedly,
-     version: "0.1.2",
+     version: "1.0.0",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -31,8 +31,9 @@ defmodule Spreedly.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.8.0"},
-      {:poison, "~> 1.5"}
+      {:httpoison, "~> 0.9.0"},
+      {:poison, "~> 2.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
