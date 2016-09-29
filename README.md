@@ -12,6 +12,14 @@ def deps do
 end
 ```
 
+Add it to your application dependency:
+
+```
+def application do
+  [applications: [:spreedly]]
+end
+```
+
 ## Usage
 
 API interactions happen on a `Spreedly.Environment`.
