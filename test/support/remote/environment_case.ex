@@ -43,6 +43,16 @@ defmodule Remote.Environment.Case do
         trans
       end
 
+      defp create_purchase_transaction do
+        {:ok, trans } = Environment.purchase(env, create_test_gateway.token, create_test_card.token, 100)
+        trans
+      end
+
+      defp create_auth_transaction do
+        {:ok, trans } = Environment.authorization(env, create_test_gateway.token, create_test_card.token, 100)
+        trans
+      end
+
     end
   end
 

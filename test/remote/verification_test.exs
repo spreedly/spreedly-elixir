@@ -35,7 +35,7 @@ defmodule Remote.VerificationTest do
     assert trans.currency_code == "GBP"
   end
 
-  test "successful purchase with options" do
+  test "successful verify with options" do
     {:ok, trans } = Environment.verify(env, create_test_gateway.token, create_test_card.token, "GBP", order_id: "44", description: "Wow")
     assert trans.succeeded == true
     assert trans.description == "Wow"

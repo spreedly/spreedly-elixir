@@ -1,6 +1,6 @@
 # Spreedly
 
-A wrapper of the Spreedly API.
+A wrapper of the Spreedly API. This library is not officially supported.
 
 ## Installation
 

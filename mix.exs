@@ -31,10 +31,8 @@ defmodule Spreedly.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.9.0"},
-      {:hackney, "1.6.1"},
-      {:poison, "~> 2.0 or ~> 3.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:httpoison, "~> 0.10.0"},
+      {:poison, "~> 2.0 or ~> 3.0"}
     ]
   end
 
@@ -51,7 +49,7 @@ defmodule Spreedly.Mixfile do
     [
       maintainers: ["Duff O'Melia <duff@omelia.org>"],
       licenses:    ["MIT"],
-      links:       %{"GitHub" => "https://github.com/duff/spreedly-elixir"}
+      links:       %{"GitHub" => "https://github.com/spreedly/spreedly-elixir"}
     ]
   end
 

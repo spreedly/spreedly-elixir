@@ -24,8 +24,38 @@ defmodule Spreedly.Environment do
     |> response
   end
 
+  def retain_payment_method(env, token) do
+    HTTPoison.put(retain_payment_method_url(token), empty_body, headers(env))
+    |> response
+  end
+
+  def redact_payment_method(env, token) do
+    HTTPoison.put(redact_payment_method_url(token), empty_body, headers(env))
+    |> response
+  end
+
   def purchase(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
-    HTTPoison.post(purchase_url(gateway_token), purchase_body(payment_method_token, amount, currency_code, options), headers(env))
+    HTTPoison.post(purchase_url(gateway_token), auth_or_purchase_body(payment_method_token, amount, currency_code, options), headers(env))
+    |> response
+  end
+
+  def authorization(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
+    HTTPoison.post(authorization_url(gateway_token), auth_or_purchase_body(payment_method_token, amount, currency_code, options), headers(env))
+    |> response
+  end
+
+  def capture(env, transaction_token) do
+    HTTPoison.post(capture_url(transaction_token), empty_body, headers(env))
+    |> response
+  end
+
+  def void(env, transaction_token) do
+    HTTPoison.post(void_url(transaction_token), empty_body, headers(env))
+    |> response
+  end
+
+  def credit(env, transaction_token) do
+    HTTPoison.post(credit_url(transaction_token), empty_body, headers(env))
     |> response
   end
 

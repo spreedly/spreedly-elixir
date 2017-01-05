@@ -28,7 +28,7 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
-  def purchase_body(payment_method_token, amount, currency_code, options) do
+  def auth_or_purchase_body(payment_method_token, amount, currency_code, options) do
     %{
       transaction:
       %{
@@ -48,6 +48,11 @@ defmodule Spreedly.RequestBody do
         currency_code: currency_code,
       } |> Map.merge(Map.new(options))
     }
+    |> Poison.encode!
+  end
+
+  def empty_body do
+    %{}
     |> Poison.encode!
   end
 
