@@ -10,27 +10,27 @@ defmodule Spreedly.Environment do
   end
 
   def add_gateway(env, gateway_type) do
-    HTTPoison.post(add_gateway_url, add_gateway_body(gateway_type), headers(env))
+    HTTPoison.post(add_gateway_url(), add_gateway_body(gateway_type), headers(env))
     |> response
   end
 
   def add_receiver(env, receiver_type, options \\ []) do
-    HTTPoison.post(add_receiver_url, add_receiver_body(receiver_type, options), headers(env))
+    HTTPoison.post(add_receiver_url(), add_receiver_body(receiver_type, options), headers(env))
     |> response
   end
 
   def add_credit_card(env, options) do
-    HTTPoison.post(add_payment_method_url, add_credit_card_body(options), headers(env))
+    HTTPoison.post(add_payment_method_url(), add_credit_card_body(options), headers(env))
     |> response
   end
 
   def retain_payment_method(env, token) do
-    HTTPoison.put(retain_payment_method_url(token), empty_body, headers(env))
+    HTTPoison.put(retain_payment_method_url(token), empty_body(), headers(env))
     |> response
   end
 
   def redact_payment_method(env, token) do
-    HTTPoison.put(redact_payment_method_url(token), empty_body, headers(env))
+    HTTPoison.put(redact_payment_method_url(token), empty_body(), headers(env))
     |> response
   end
 
@@ -45,17 +45,17 @@ defmodule Spreedly.Environment do
   end
 
   def capture(env, transaction_token) do
-    HTTPoison.post(capture_url(transaction_token), empty_body, headers(env))
+    HTTPoison.post(capture_url(transaction_token), empty_body(), headers(env))
     |> response
   end
 
   def void(env, transaction_token) do
-    HTTPoison.post(void_url(transaction_token), empty_body, headers(env))
+    HTTPoison.post(void_url(transaction_token), empty_body(), headers(env))
     |> response
   end
 
   def credit(env, transaction_token) do
-    HTTPoison.post(credit_url(transaction_token), empty_body, headers(env))
+    HTTPoison.post(credit_url(transaction_token), empty_body(), headers(env))
     |> response
   end
 

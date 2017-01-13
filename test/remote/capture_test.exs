@@ -8,12 +8,12 @@ defmodule Remote.CaptureTest do
   end
 
   test "transaction method not found" do
-    { :error, reason } = Environment.capture(env, "no_transaction_token")
+    { :error, reason } = Environment.capture(env(), "no_transaction_token")
     assert reason =~ "Unable to find the specified reference transaction."
   end
 
   test "successful capture" do
-    {:ok, trans } = Environment.capture(env, create_auth_transaction.token)
+    {:ok, trans } = Environment.capture(env(), create_auth_transaction().token)
     assert trans.succeeded == true
     assert trans.transaction_type == "Capture"
   end

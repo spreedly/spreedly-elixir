@@ -3,22 +3,22 @@ defmodule Remote.AddCreditCardTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, message } = Environment.add_credit_card(bogus_env, card_deets)
+    { :error, message } = Environment.add_credit_card(bogus_env, card_deets())
     assert message =~ "Unable to authenticate"
   end
 
   test "failed with validation error" do
-    { :error, reason } = Environment.add_credit_card(env, card_deets(first_name: "  ", last_name: nil))
+    { :error, reason } = Environment.add_credit_card(env(), card_deets(first_name: "  ", last_name: nil))
     assert reason =~ "First name can't be blank\nLast name can't be blank"
   end
 
   test "paid account required" do
-    { :error, reason } = Environment.add_credit_card(env, card_deets(number: "44421"))
+    { :error, reason } = Environment.add_credit_card(env(), card_deets(number: "44421"))
     assert reason =~ "has not been activated for real transactions"
   end
 
   test "successfully add" do
-    {:ok, trans } = Environment.add_credit_card(env, card_deets)
+    {:ok, trans } = Environment.add_credit_card(env(), card_deets())
     assert trans.transaction_type == "AddPaymentMethod"
     assert trans.payment_method.first_name == "Matrim"
     assert trans.message == "Succeeded!"
@@ -31,12 +31,12 @@ defmodule Remote.AddCreditCardTest do
   end
 
   test "retain on create" do
-    {:ok, trans } = Environment.add_credit_card(env, card_deets(retained: true))
+    {:ok, trans } = Environment.add_credit_card(env(), card_deets(retained: true))
     assert "retained" == trans.payment_method.storage_state
   end
 
   test "add using full name" do
-    {:ok, trans } = Environment.add_credit_card(env, card_deets(full_name: "Kvothe OFerglintine", first_name: nil, last_name: nil))
+    {:ok, trans } = Environment.add_credit_card(env(), card_deets(full_name: "Kvothe OFerglintine", first_name: nil, last_name: nil))
 
     assert "Kvothe OFerglintine" == trans.payment_method.full_name
     assert "Kvothe" == trans.payment_method.first_name

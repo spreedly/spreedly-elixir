@@ -8,12 +8,12 @@ defmodule Remote.ShowTranscriptTest do
   end
 
   test "non existent" do
-    { :error, reason } = Environment.show_transcript(env, "NonExistentToken")
+    { :error, reason } = Environment.show_transcript(env(), "NonExistentToken")
     assert reason =~ "Unable to find the transaction"
   end
 
   test "success" do
-    {:ok, transcript } = Environment.show_transcript(env, create_verify_transaction.token)
+    {:ok, transcript } = Environment.show_transcript(env(), create_verify_transaction().token)
     assert transcript == ""
   end
 

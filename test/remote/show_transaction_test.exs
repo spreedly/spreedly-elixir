@@ -8,23 +8,23 @@ defmodule Remote.ShowTransactionTest do
   end
 
   test "non existent transaction" do
-    { :error, reason } = Environment.show_transaction(env, "NonExistentToken")
+    { :error, reason } = Environment.show_transaction(env(), "NonExistentToken")
     assert reason =~ "Unable to find the transaction"
   end
 
   test "show verify transaction" do
-    {:ok, trans } = Environment.show_transaction(env, create_verify_transaction.token)
+    {:ok, trans } = Environment.show_transaction(env(), create_verify_transaction().token)
     assert trans.payment_method.last_name == "Cauthon"
     assert trans.transaction_type == "Verification"
   end
 
   test "show add payment method transaction" do
-    {:ok, trans } = Environment.show_transaction(env, create_test_card_transaction.token)
+    {:ok, trans } = Environment.show_transaction(env(), create_test_card_transaction().token)
     assert trans.transaction_type == "AddPaymentMethod"
   end
 
   defp create_test_card_transaction do
-    { :ok, trans } = Environment.add_credit_card(env, card_deets)
+    { :ok, trans } = Environment.add_credit_card(env(), card_deets())
     trans
   end
 
