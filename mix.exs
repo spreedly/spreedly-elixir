@@ -33,6 +33,7 @@ defmodule Spreedly.Mixfile do
     [
       {:httpoison, "~> 0.9.0"},
       {:hackney, "1.6.1"},
+      {:ex_doc, ">= 0.0.0", only: :dev},
       {:poison, "~> 2.0 or ~> 3.0"}
     ]
   end
