@@ -49,7 +49,7 @@ defmodule Spreedly.Mixfile do
 
   defp package do
     [
-      maintainers: ["Duff O'Melia <duff@omelia.org>"],
+      maintainers: ["Duff O'Melia <duff@omelia.org>","Jared Knipp <jared@spreedly.com>"],
       licenses:    ["MIT"],
       links:       %{"GitHub" => "https://github.com/spreedly/spreedly-elixir"}
     ]
