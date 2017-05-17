@@ -34,6 +34,11 @@ defmodule Spreedly.Environment do
     |> response
   end
 
+  def store_payment_method(env, gateway_token, payment_method_token) do
+    HTTPoison.post(store_payment_method_url(gateway_token), store_payment_method_body(payment_method_token), headers(env))
+    |> response
+  end
+
   def purchase(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
     HTTPoison.post(purchase_url(gateway_token), auth_or_purchase_body(payment_method_token, amount, currency_code, options), headers(env))
     |> response

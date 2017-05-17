@@ -51,6 +51,16 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
+  def store_payment_method_body(payment_method_token) do
+    %{
+      transaction:
+      %{
+        payment_method_token: payment_method_token
+      }
+    }
+    |> Poison.encode!
+  end
+
   def empty_body do
     %{}
     |> Poison.encode!

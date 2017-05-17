@@ -63,7 +63,10 @@ defmodule Spreedly.URL do
   def redact_payment_method_url(token) do
     "#{base_url()}/payment_methods/#{token}/redact.json"
   end
-
+    
+  def store_payment_method_url(gateway_token) do
+    "#{base_url()}/gateways/#{gateway_token}/store.json"
+  end
 
   def list_payment_method_transactions_url(token, options) do
     encoded = URI.encode_query(options)
