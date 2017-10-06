@@ -1,4 +1,5 @@
 defmodule Spreedly.RequestBody do
+  @moduledoc false
 
   def add_gateway_body(gateway_type) do
     %{
@@ -11,7 +12,7 @@ defmodule Spreedly.RequestBody do
   end
 
   def add_receiver_body(receiver_type, options) do
-    %{ receiver: receiver_details(receiver_type, options) }
+    %{receiver: receiver_details(receiver_type, options)}
     |> Poison.encode!
   end
 
@@ -61,24 +62,19 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
-  def empty_body do
-    %{}
-    |> Poison.encode!
-  end
-
   defp credit_card_fields(options) do
-    ~w(first_name last_name full_name month year number verification_value address1 address2 city state zip country phone_number company)a
+    ~w(first_name last_name full_name month year number verification_value
+       address1 address2 city state zip country phone_number company)a
     |> Keyword.new(fn (x) -> {x, options[x]} end)
     |> Map.new
   end
 
   defp receiver_details(:test, options) do
-    %{ receiver_type: :test, hostnames: options[:hostnames] }
+    %{receiver_type: :test, hostnames: options[:hostnames]}
   end
 
   defp receiver_details(receiver_type, _options) do
-    %{ receiver_type: receiver_type }
+    %{receiver_type: receiver_type}
   end
-
 
 end

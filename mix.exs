@@ -10,7 +10,8 @@ defmodule Spreedly.Mixfile do
      elixirc_paths: elixirc_paths(Mix.env),
      description: description(),
      package: package(),
-     deps: deps()]
+     deps: deps(),
+     dialyzer: [ignore_warnings: "dialyzer.ignore-warnings"]]
   end
 
   # Configuration for the OTP application
@@ -31,10 +32,12 @@ defmodule Spreedly.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.11"},
+      {:httpoison, "~> 0.13"},
       {:hackney, "~> 1.7 or ~> 1.8"},
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:poison, "~> 2.0 or ~> 3.0"}
+      {:poison, "~> 2.0 or ~> 3.0"},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
     ]
   end
 
