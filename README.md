@@ -22,7 +22,7 @@ end
 
 ## Usage
 
-API interactions happen on a `Spreedly.Environment`.
+API interactions happen with a `Spreedly.Environment`.
 
 ```elixir
 env = Spreedly.Environment.new(environment_key, access_secret)
@@ -35,7 +35,7 @@ Once you have an environment, you can use it to interact with the API.
 You can pattern match on the response.
 
 ```elixir
-case Spreedly.Environment.purchase(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK", 2344) do
+case Spreedly.purchase(env, "R8AKGmYwkZrrj2BpWcPge", "RjTFFZQp4MrH2HJNfPwK", 2344) do
   {:ok, %{succeeded: true}} ->
     IO.puts "Success!"
   {:ok, %{succeeded: false, message: message}} ->
@@ -48,7 +48,7 @@ end
 ### Show a Transaction
 
 ```elixir
-iex> Spreedly.Environment.show_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
+iex> Spreedly.show_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
 {:ok,
  %{created_at: "2016-01-10T16:36:14Z", currency_code: nil, description: nil,
    email: nil, gateway_specific_fields: nil,
@@ -83,7 +83,7 @@ iex> Spreedly.Environment.show_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
    token: "TcsSf0hpfa3K3zW5eYdSOQmR0rs", transaction_type: "Verification",
    updated_at: "2016-01-10T16:36:14Z"}}
 
-iex> Spreedly.Environment.find_transaction(env, "NonExistentToken")
+iex> Spreedly.find_transaction(env, "NonExistentToken")
 {:error, "Unable to find the transaction NonExistentToken."}
 ```
 
