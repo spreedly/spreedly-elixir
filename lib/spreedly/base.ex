@@ -43,7 +43,7 @@ defmodule Spreedly.Base do
   end
 
   @spec process_response({:ok, Response.t | AsyncResponse.t} | {:error, Error.t}) :: {:ok, any} | {:error, any}
-  defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201] do
+  defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201, 202] do
     ok_response(body)
   end
   defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [401, 402, 404] do
