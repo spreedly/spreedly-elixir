@@ -128,7 +128,7 @@ defmodule Spreedly do
   end
 
   @doc """
-  Determine if a credit card is chargeable card and available for purchases
+  Determine if a credit card is a chargeable card and available for purchases,
   with optional request body data specified as a keyword list.
 
   ## Examples

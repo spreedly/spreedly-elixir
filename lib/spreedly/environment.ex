@@ -1,7 +1,7 @@
 defmodule Spreedly.Environment do
   @moduledoc """
   The Spreedly Environment data structure required for
-  protected api calls. An environment is the combinration of
+  protected api calls. An environment is the combination of
   the Spreedly environment key and the access secret.
   """
 
