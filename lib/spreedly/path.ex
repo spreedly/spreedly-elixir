@@ -77,4 +77,8 @@ defmodule Spreedly.Path do
     "/gateways/#{token}/transactions.json"
   end
 
+  def list_transactions_path do
+    "/transactions.json"
+  end
+
 end

@@ -197,6 +197,34 @@ defmodule Spreedly do
     get_request(env, list_gateway_transactions_path(gateway_token), params)
   end
 
+  @doc """
+  Retrieve a list of all transactions for the authenticated environment.
+
+  The list of transactions can be ordered and paginated by providing
+  optional query params specified as a keyword list.
+
+  ## Params
+
+    * `:order` - The order of the returned list. Default is `asc`, which returns
+      the oldest records first. To list newer records first, use `desc`.
+
+    * `:since_token` - The token of the item to start from (e.g., the last token
+      received in the previous list if iterating through records).
+
+    * `:count` - The number of transactions to return. By default returns 20,
+      maximum allowed is 100.
+
+  ## Examples
+
+      list_transactions(env)
+      list_transactions(env, order: :desc, since_token: "token", count: 100])
+
+  """
+  @spec list_transactions(Environment.t, Keyword.t) :: {:ok, any} | {:error, any}
+  def list_transactions(env, params \\ []) do
+    get_request(env, list_transactions_path(), params)
+  end
+
   defp transcript_response({:error, %HTTPoison.Error{reason: reason}}), do: {:error, reason}
   defp transcript_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     {:ok, body}
