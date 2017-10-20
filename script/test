@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+
+mix credo --strict
+mix dialyzer
+mix test --include remote
+
+echo -e `date +"\n\nSuccessful Full Test Suite Run at %Y-%m-%d %H:%M:%S\n"`

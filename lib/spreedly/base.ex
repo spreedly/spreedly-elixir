@@ -23,7 +23,7 @@ defmodule Spreedly.Base do
   @spec api_request(atom, Environment.t, String.t, any, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
   defp api_request(method, env, path, body, options \\ [], response_callback \\ &process_response/1) do
     method
-    |> request(path, body, headers(env), options)
+    |> request(path, body, headers(env), [{:recv_timeout, receive_timeout()} | options])
     |> response_callback.()
   end
 
@@ -96,4 +96,7 @@ defmodule Spreedly.Base do
     Application.get_env(:spreedly, :base_url, "https://core.spreedly.com/v1")
   end
 
+  defp receive_timeout do
+    Application.get_env(:spreedly, :receive_timeout, 10_000)
+  end
 end

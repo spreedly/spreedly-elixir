@@ -14,10 +14,19 @@ end
 
 Add it to your application dependency:
 
-```
+```elixir
 def application do
   [applications: [:spreedly]]
 end
+```
+
+## Configuration
+
+Spreedly Elixir has a limited number of configuration options that you can override in your project specific configuration files. The options include specifying the receive timeout.
+
+```elixir
+config :spreedly,
+  receive_timeout: value  # Defaults to 10_000 milliseconds
 ```
 
 ## Usage
@@ -86,4 +95,3 @@ iex> Spreedly.show_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
 iex> Spreedly.find_transaction(env, "NonExistentToken")
 {:error, "Unable to find the transaction NonExistentToken."}
 ```
-
