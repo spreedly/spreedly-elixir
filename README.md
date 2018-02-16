@@ -1,6 +1,6 @@
-# Spreedly
+# Spreedly [![Hex pm](http://img.shields.io/hexpm/v/spreedly.svg?style=flat)](https://hex.pm/packages/spreedly) [![hex.pm downloads](https://img.shields.io/hexpm/dt/spreedly.svg?style=flat)](https://hex.pm/packages/spreedly)
 
-A wrapper of the Spreedly API. This library is not officially supported.
+A wrapper of the Spreedly API ([documentation](http://hexdocs.pm/spreedly/)). This library is not officially supported.
 
 ## Installation
 
