@@ -1,12 +1,12 @@
 defmodule Spreedly.RequestBody do
   @moduledoc false
 
-  def add_gateway_body(gateway_type) do
+  def add_gateway_body(gateway_type, gateway_params) do
     %{
-      gateway:
-      %{
-        gateway_type: gateway_type
-      }
+      gateway: Map.merge(
+        %{gateway_type: gateway_type},
+        gateway_params
+      )
     }
     |> Poison.encode!
   end

@@ -44,9 +44,9 @@ defmodule Spreedly do
 
   alias Spreedly.Environment
 
-  @spec add_gateway(Environment.t, String.t) :: {:ok, any} | {:error, any}
-  def add_gateway(env, gateway_type) do
-    post_request(env, add_gateway_path(), add_gateway_body(gateway_type))
+  @spec add_gateway(Environment.t, String.t, map()) :: {:ok, any} | {:error, any}
+  def add_gateway(env, gateway_type, gateway_params \\ %{}) do
+    post_request(env, add_gateway_path(), add_gateway_body(gateway_type, gateway_params))
   end
 
   @spec add_receiver(Environment.t, String.t, Keyword.t) :: {:ok, any} | {:error, any}
