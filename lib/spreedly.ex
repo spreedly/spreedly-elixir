@@ -64,6 +64,11 @@ defmodule Spreedly do
     put_request(env, retain_payment_method_path(token))
   end
 
+  @spec redact_gateway(Environment.t, String.t) :: {:ok, any} | {:error, any}
+  def redact_gateway(env, token) do
+    put_request(env, redact_gateway_method_path(token))
+  end
+
   @spec redact_payment_method(Environment.t, String.t) :: {:ok, any} | {:error, any}
   def redact_payment_method(env, token) do
     put_request(env, redact_payment_method_path(token))
