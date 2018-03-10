@@ -95,3 +95,52 @@ iex> Spreedly.show_transaction(env, "TcsSf0hpfa3K3zW5eYdSOQmR0rs")
 iex> Spreedly.find_transaction(env, "NonExistentToken")
 {:error, "Unable to find the transaction NonExistentToken."}
 ```
+
+## Contributing
+
+We're happy to consider [pull requests](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
+
+To help ensure a consistent code style and passing tests, we ask that you execute `script/test` before submitting the PR. The test script runs Credo, Dialyzer and the remote test suite.
+
+Upon success, it will output a message like:
+
+`Successful Full Test Suite Run at 2018-03-09 20:52:15`
+
+Include the success message output as the last line in the commit message for the pull request.
+
+### Example script/test output
+
+```bash
+# Run Credo, Dialyzer and remote tests
+script/test
+
+# Output
+Checking 5 source files ...
+
+Please report incorrect results: https://github.com/rrrene/credo/issues
+
+Analysis took 0.4 seconds (0.02s to load, 0.4s running checks)
+79 mods/funs, found no issues.
+
+Checking PLT...
+...
+PLT is up to date!
+Starting Dialyzer
+...
+done in 0m4.14s
+done (passed successfully)
+
+Compiling 6 files (.ex)
+Generated spreedly app
+Including tags: [:remote]
+Excluding tags: [remote: true]
+
+..............................................................................
+
+Finished in 9.8 seconds
+78 tests, 0 failures
+
+Randomized with seed 25230
+
+Successful Full Test Suite Run at 2018-03-09 20:52:15
+```
