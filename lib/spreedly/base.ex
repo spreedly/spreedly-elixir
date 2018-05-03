@@ -46,12 +46,23 @@ defmodule Spreedly.Base do
   defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201, 202] do
     ok_response(body)
   end
+
   defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [401, 402, 404] do
     error_response(body)
   end
+
   defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [422, 403] do
     unprocessable(body)
   end
+
+  defp process_response({:ok, %Response{status_code: code}}) when code in [408] do
+    {:error, "#{code} Request timeout"}
+  end
+
+  defp process_response({:ok, %Response{status_code: code}}) when code in [429] do
+    {:error, "#{code} Too many requests, rate limit exceeded"}
+  end
+
   defp process_response({:error, %Error{reason: reason}}) do
     {:error, reason}
   end
@@ -60,12 +71,16 @@ defmodule Spreedly.Base do
   defp unprocessable(body), do: ok_response(body)
 
   defp error_response(body) do
-    {:error, body |> extract_reason}
+    {:error, extract_reason(body)}
+  end
+
+  defp extract_reason(body = ~s[{"errors":] <> _rest) do
+    parse(body)[:errors]
+    |> Enum.map_join("\n", &(&1.message))
   end
 
   defp extract_reason(body) do
-    parse(body)[:errors]
-    |> Enum.map_join("\n", &(&1.message))
+    body
   end
 
   defp ok_response(body) do
