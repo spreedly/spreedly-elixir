@@ -8,7 +8,7 @@ The package can be installed by adding spreedly to your list of dependencies in 
 
 ```elixir
 def deps do
-  [{:spreedly, "~> 2.0"}]
+  [{:spreedly, "~> 2.0.0"}]
 end
 ```
 
