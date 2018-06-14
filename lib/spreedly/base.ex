@@ -2,7 +2,7 @@ defmodule Spreedly.Base do
   @moduledoc false
   use HTTPoison.Base
 
-  alias HTTPoison.{Response, AsyncResponse, Error}
+  alias HTTPoison.{AsyncResponse, Error, Response}
   alias Spreedly.Environment
 
   @spec get_request(Environment.t, String.t, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
