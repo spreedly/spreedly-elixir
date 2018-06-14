@@ -230,6 +230,21 @@ defmodule Spreedly do
     get_request(env, list_transactions_path(), params)
   end
 
+  @doc """
+  Retrieve a list of created gateways in the environment with optional
+  query params specified as a keyword list.
+
+  ## Examples
+
+    list_created_gateways(env)
+    list_created_gateways(env, [order: :desc, since_token: "token"])
+
+  """
+  @spec list_created_gateways(Environment.t, Keyword.t) :: {:ok, any} | {:error, any}
+  def list_created_gateways(env, params \\ []) do
+    get_request(env, list_created_gateways_path(), params)
+  end
+
   defp transcript_response({:error, %HTTPoison.Error{reason: reason}}), do: {:error, reason}
   defp transcript_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     {:ok, body}
