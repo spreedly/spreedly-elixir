@@ -89,4 +89,8 @@ defmodule Spreedly.Path do
     "/gateways.json"
   end
 
+  def list_supported_gateways_path do
+    "/gateways_options.json"
+  end
+
 end

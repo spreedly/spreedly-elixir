@@ -245,6 +245,14 @@ defmodule Spreedly do
     get_request(env, list_created_gateways_path(), params)
   end
 
+  @doc """
+  Retrieve a list of all gateways, and their properties, supported by Spreedly. 
+  
+  """
+  def list_supported_gateways do
+    get_request(nil, list_supported_gateways_path())
+  end
+
   defp transcript_response({:error, %HTTPoison.Error{reason: reason}}), do: {:error, reason}
   defp transcript_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     {:ok, body}

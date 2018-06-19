@@ -5,7 +5,7 @@ defmodule Spreedly.Base do
   alias HTTPoison.{AsyncResponse, Error, Response}
   alias Spreedly.Environment
 
-  @spec get_request(Environment.t, String.t, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
+  @spec get_request(Environment.t | nil, String.t, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
   def get_request(env, path, params \\ [], response_callback \\ &process_response/1) do
     api_request(:get, env, path, "", [params: params], response_callback)
   end
@@ -20,7 +20,7 @@ defmodule Spreedly.Base do
     api_request(:put, env, path, body)
   end
 
-  @spec api_request(atom, Environment.t, String.t, any, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
+  @spec api_request(atom, Environment.t | nil, String.t, any, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
   defp api_request(method, env, path, body, options \\ [], response_callback \\ &process_response/1) do
     method
     |> request(path, body, headers(env), [{:recv_timeout, receive_timeout()} | options])
@@ -99,13 +99,16 @@ defmodule Spreedly.Base do
   end
 
   @spec headers(Environment.t) :: headers
+  defp headers(nil), do: [content_type()]
   defp headers(env) do
     encoded = Base.encode64("#{env.environment_key}:#{env.access_secret}")
     [
       {"Authorization", "Basic #{encoded}"},
-      {"Content-Type", "application/json"}
+      content_type()
     ]
   end
+
+  defp content_type, do: {"Content-Type", "application/json"}
 
   defp base_url do
     Application.get_env(:spreedly, :base_url, "https://core.spreedly.com/v1")
