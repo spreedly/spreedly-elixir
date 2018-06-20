@@ -236,8 +236,8 @@ defmodule Spreedly do
 
   ## Examples
 
-    list_created_gateways(env)
-    list_created_gateways(env, [order: :desc, since_token: "token"])
+      list_created_gateways(env)
+      list_created_gateways(env, [order: :desc, since_token: "token"])
 
   """
   @spec list_created_gateways(Environment.t, Keyword.t) :: {:ok, any} | {:error, any}
@@ -246,8 +246,8 @@ defmodule Spreedly do
   end
 
   @doc """
-  Retrieve a list of all gateways, and their properties, supported by Spreedly. 
-  
+  Retrieve a list of all gateways, and their properties, supported by Spreedly.
+
   """
   def list_supported_gateways do
     get_request(nil, list_supported_gateways_path())
