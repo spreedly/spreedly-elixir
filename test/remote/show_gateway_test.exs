@@ -3,18 +3,18 @@ defmodule Remote.ShowGatewayTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, reason } = Spreedly.show_gateway(bogus_env, "SomeToken")
+    {:error, reason} = Spreedly.show_gateway(bogus_env, "SomeToken")
     assert reason =~ "Unable to authenticate"
   end
 
   test "non existent gateway" do
-    { :error, reason } = Spreedly.show_gateway(env(), "NonExistentToken")
+    {:error, reason} = Spreedly.show_gateway(env(), "NonExistentToken")
     assert reason =~ "Unable to find the specified gateway"
   end
 
   test "show gateway" do
     token = create_test_gateway().token
-    {:ok, gateway } = Spreedly.show_gateway(env(), token)
+    {:ok, gateway} = Spreedly.show_gateway(env(), token)
     assert gateway.gateway_type == "test"
     assert gateway.name == "Spreedly Test"
     assert gateway.token == token

@@ -3,12 +3,12 @@ defmodule Remote.ListPaymentMethodTransactionsTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, reason } = Spreedly.list_payment_method_transactions(bogus_env, "SomeToken")
+    {:error, reason} = Spreedly.list_payment_method_transactions(bogus_env, "SomeToken")
     assert reason =~ "Unable to authenticate"
   end
 
   test "non existent payment method" do
-    { :error, reason } = Spreedly.list_payment_method_transactions(env(), "NonExistentToken")
+    {:error, reason} = Spreedly.list_payment_method_transactions(env(), "NonExistentToken")
     assert reason =~ "Unable to find the specified payment method"
   end
 
@@ -45,5 +45,4 @@ defmodule Remote.ListPaymentMethodTransactionsTest do
     assert Enum.at(list, 0).token == trans_2.token
     assert Enum.at(list, 1).token == trans_1.token
   end
-
 end

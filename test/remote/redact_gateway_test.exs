@@ -3,18 +3,18 @@ defmodule Remote.RedactGatewayMethodTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, message } = Spreedly.redact_gateway(bogus_env, "some_gateway_token")
+    {:error, message} = Spreedly.redact_gateway(bogus_env, "some_gateway_token")
     assert message =~ "Unable to authenticate"
   end
 
   test "non existent" do
-    { :error, reason } = Spreedly.redact_gateway(env(), "non_existent_gateway")
+    {:error, reason} = Spreedly.redact_gateway(env(), "non_existent_gateway")
     assert reason =~ "Unable to find the specified gateway."
   end
 
   test "successfully redact" do
-    {:ok, add_gateway } = Spreedly.add_gateway(env(), :test)
-    assert  "retained" == add_gateway.state
+    {:ok, add_gateway} = Spreedly.add_gateway(env(), :test)
+    assert "retained" == add_gateway.state
 
     {:ok, redact_gateway} = Spreedly.redact_gateway(env(), add_gateway.token)
     assert "redacted" == redact_gateway.gateway.state

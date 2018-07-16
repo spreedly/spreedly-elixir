@@ -3,7 +3,7 @@ defmodule Remote.ListTransactionsTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, reason } = Spreedly.list_transactions(bogus_env)
+    {:error, reason} = Spreedly.list_transactions(bogus_env)
     assert reason =~ "Unable to authenticate"
   end
 
@@ -21,5 +21,4 @@ defmodule Remote.ListTransactionsTest do
 
     assert length(list) >= 3
   end
-
 end

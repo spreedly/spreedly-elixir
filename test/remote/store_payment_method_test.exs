@@ -3,12 +3,12 @@ defmodule Remote.StorePaymentMethodTest do
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")
-    { :error, message } = Spreedly.store_payment_method(bogus_env, "some_gateway", "some_card_token")
+    {:error, message} = Spreedly.store_payment_method(bogus_env, "some_gateway", "some_card_token")
     assert message =~ "Unable to authenticate"
   end
 
   test "non existent payment method" do
-    { :error, reason } = Spreedly.store_payment_method(env(), create_test_gateway().token, "non_existent_card")
+    {:error, reason} = Spreedly.store_payment_method(env(), create_test_gateway().token, "non_existent_card")
     assert reason =~ "There is no payment method corresponding to the specified payment method token."
   end
 
@@ -18,5 +18,4 @@ defmodule Remote.StorePaymentMethodTest do
     assert store_trans.transaction_type == "Store"
     assert store_trans.succeeded == true
   end
-
 end

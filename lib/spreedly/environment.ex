@@ -8,11 +8,10 @@ defmodule Spreedly.Environment do
   defstruct [:environment_key, :access_secret]
 
   @typedoc "The Spreedly environment made of up the environment key and access secret"
-  @type t :: %__MODULE__{environment_key: String.t, access_secret: String.t}
+  @type t :: %__MODULE__{environment_key: String.t(), access_secret: String.t()}
 
-  @spec new(String.t, String.t) :: t
+  @spec new(String.t(), String.t()) :: t
   def new(environment_key, access_secret) do
     %__MODULE__{environment_key: environment_key, access_secret: access_secret}
   end
-
 end

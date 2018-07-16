@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+mix format mix.exs "{lib,test,config,priv}/**/*.{ex,exs}" "mix.exs" --check-formatted
 mix credo --strict
 mix dialyzer
 mix test --include remote

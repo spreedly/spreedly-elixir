@@ -2,16 +2,18 @@ defmodule Spreedly.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :spreedly,
-     version: "2.0.4",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     elixirc_paths: elixirc_paths(Mix.env),
-     description: description(),
-     package: package(),
-     deps: deps(),
-     dialyzer: [ignore_warnings: "dialyzer.ignore-warnings"]]
+    [
+      app: :spreedly,
+      version: "2.0.4",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      description: description(),
+      package: package(),
+      deps: deps(),
+      dialyzer: [ignore_warnings: "dialyzer.ignore-warnings"]
+    ]
   end
 
   # Configuration for the OTP application
@@ -42,7 +44,7 @@ defmodule Spreedly.Mixfile do
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp description do
     """
@@ -52,10 +54,9 @@ defmodule Spreedly.Mixfile do
 
   defp package do
     [
-      maintainers: ["Duff O'Melia <duff@omelia.org>","Jared Knipp <jared@spreedly.com>"],
-      licenses:    ["MIT"],
-      links:       %{"GitHub" => "https://github.com/spreedly/spreedly-elixir"}
+      maintainers: ["Duff O'Melia <duff@omelia.org>", "Jared Knipp <jared@spreedly.com>"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/spreedly/spreedly-elixir"}
     ]
   end
-
 end

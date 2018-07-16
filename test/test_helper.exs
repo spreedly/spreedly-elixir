@@ -1,2 +1,2 @@
-ExUnit.configure exclude: [remote: true]
+ExUnit.configure(exclude: [remote: true])
 ExUnit.start()

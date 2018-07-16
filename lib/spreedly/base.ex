@@ -5,22 +5,23 @@ defmodule Spreedly.Base do
   alias HTTPoison.{AsyncResponse, Error, Response}
   alias Spreedly.Environment
 
-  @spec get_request(Environment.t | nil, String.t, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
+  @spec get_request(Environment.t() | nil, String.t(), Keyword.t(), (any -> any)) :: {:ok, any} | {:error, any}
   def get_request(env, path, params \\ [], response_callback \\ &process_response/1) do
     api_request(:get, env, path, "", [params: params], response_callback)
   end
 
-  @spec post_request(Environment.t, String.t, any) :: {:ok, any} | {:error, any}
+  @spec post_request(Environment.t(), String.t(), any) :: {:ok, any} | {:error, any}
   def post_request(env, path, body \\ "") do
     api_request(:post, env, path, body)
   end
 
-  @spec put_request(Environment.t, String.t, any) :: {:ok, any} | {:error, any}
+  @spec put_request(Environment.t(), String.t(), any) :: {:ok, any} | {:error, any}
   def put_request(env, path, body \\ "") do
     api_request(:put, env, path, body)
   end
 
-  @spec api_request(atom, Environment.t | nil, String.t, any, Keyword.t, ((any) -> any)) :: {:ok, any} | {:error, any}
+  @spec api_request(atom, Environment.t() | nil, String.t(), any, Keyword.t(), (any -> any)) ::
+          {:ok, any} | {:error, any}
   defp api_request(method, env, path, body, options \\ [], response_callback \\ &process_response/1) do
     method
     |> request(path, body, headers(env), [{:recv_timeout, receive_timeout()} | options])
@@ -42,7 +43,7 @@ defmodule Spreedly.Base do
     base_url() <> path
   end
 
-  @spec process_response({:ok, Response.t | AsyncResponse.t} | {:error, Error.t}) :: {:ok, any} | {:error, any}
+  @spec process_response({:ok, Response.t() | AsyncResponse.t()} | {:error, Error.t()}) :: {:ok, any} | {:error, any}
   defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201, 202] do
     ok_response(body)
   end
@@ -76,7 +77,7 @@ defmodule Spreedly.Base do
 
   defp extract_reason(body = ~s[{"errors":] <> _rest) do
     parse(body)[:errors]
-    |> Enum.map_join("\n", &(&1.message))
+    |> Enum.map_join("\n", & &1.message)
   end
 
   defp extract_reason(body) do
@@ -90,18 +91,20 @@ defmodule Spreedly.Base do
   defp map_from(body) do
     body
     |> parse()
-    |> Map.values
-    |> List.first
+    |> Map.values()
+    |> List.first()
   end
 
   defp parse(body) do
     Poison.decode!(body, keys: :atoms)
   end
 
-  @spec headers(Environment.t) :: headers
+  @spec headers(Environment.t()) :: headers
   defp headers(nil), do: [content_type()]
+
   defp headers(env) do
     encoded = Base.encode64("#{env.environment_key}:#{env.access_secret}")
+
     [
       {"Authorization", "Basic #{encoded}"},
       content_type()
