@@ -18,4 +18,9 @@ defmodule Remote.CreditTest do
     assert trans.transaction_type == "Credit"
   end
 
+  test "successful partial refund" do
+    {:ok, trans} = Spreedly.credit(env, create_purchase_transaction.token, 50, "USD")
+     assert trans.succeeded == true
+    assert trans.transaction_type == "Credit"
+  end
 end

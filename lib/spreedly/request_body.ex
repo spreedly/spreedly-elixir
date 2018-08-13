@@ -41,6 +41,16 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!
   end
 
+  def credit_body(amount, currency_code) do
+    %{
+      transaction: %{
+        amount: amount,
+        currency_code: currency_code
+      }
+    }
+    |> Poison.encode!()
+  end
+
   def verify_body(payment_method_token, currency_code, options) do
     %{
       transaction:

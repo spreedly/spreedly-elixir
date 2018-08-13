@@ -132,6 +132,11 @@ defmodule Spreedly do
     post_request(env, credit_path(transaction_token))
   end
 
+  @spec credit(Environment.t(), String.t(), pos_integer, String.t()) :: {:ok, any} | {:error, any}
+  def credit(env, transaction_token, amount, currency_code) do
+    post_request(env, credit_path(transaction_token), credit_body(amount, currency_code))
+  end
+
   @doc """
   Determine if a credit card is a chargeable card and available for purchases,
   with optional request body data specified as a keyword list.
