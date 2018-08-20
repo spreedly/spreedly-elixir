@@ -15,8 +15,7 @@ defmodule Remote.ShowTransactionTest do
   test "invalid token" do
     { :error, reason } = Spreedly.show_transaction(env(), "http://subdomain.spreedly.test")
 
-    assert reason =~ "<html>"
-    assert reason =~ "<title>The page you were looking for doesn't exist (404)</title>"
+    assert reason =~ "{\"status\":404,\"error\":\"Not Found\"}"
   end
 
   test "show verify transaction" do
