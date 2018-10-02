@@ -34,7 +34,7 @@ defmodule Spreedly.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.13"},
+      {:httpoison, "~> 1.0"},
       {:hackney, "~> 1.7 or ~> 1.8"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:poison, "~> 2.0 or ~> 3.0"},
