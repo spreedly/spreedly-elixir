@@ -4,7 +4,7 @@ defmodule Spreedly.Mixfile do
   def project do
     [
       app: :spreedly,
-      version: "2.0.5",
+      version: "2.1.0",
       elixir: "~> 1.4",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
