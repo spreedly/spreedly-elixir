@@ -56,12 +56,8 @@ defmodule Spreedly.Base do
     unprocessable(body)
   end
 
-  defp process_response({:ok, %Response{status_code: code}}) when code in [408] do
-    {:error, "#{code} Request timeout"}
-  end
-
-  defp process_response({:ok, %Response{status_code: code}}) when code in [429] do
-    {:error, "#{code} Too many requests, rate limit exceeded"}
+  defp process_response({:ok, %Response{status_code: code}}) when code in [408, 429, 500, 501, 502, 503, 504] do
+    {:error, "#{code} #{reason_phrase(code)}"}
   end
 
   defp process_response({:error, %Error{reason: reason}}) do
@@ -73,6 +69,20 @@ defmodule Spreedly.Base do
 
   defp error_response(body) do
     {:error, extract_reason(body)}
+  end
+
+  defp reason_phrase(status_code) do
+    statuses = %{
+      408 => "Request Timeout See https://docs.spreedly.com/reference/api/v1/#408-request-timeout",
+      429 => "Too many requests, rate limit exceeded. See https://docs.spreedly.com/reference/api/v1/#429-too-many-requests",
+      500 => "Internal Server Error",
+      501 => "Not Implemented",
+      502 => "Bad Gateway",
+      503 => "Service Unavailable. See https://docs.spreedly.com/reference/api/v1/#503-service-unavailable",
+      504 => "Gateway Timeout"
+    }
+
+    statuses[status_code]
   end
 
   defp extract_reason(body = ~s[{"errors":] <> _rest) do
