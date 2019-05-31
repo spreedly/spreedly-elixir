@@ -8,11 +8,13 @@ defmodule Remote.Environment.Case do
       alias Spreedly
 
       defp card_deets(options \\ []) do
+        today = Date.utc_today()
+
         default_deets = [
           email: "matrim@wot.com",
           number: "5555555555554444",
-          month: 1,
-          year: 2019,
+          month: today.month,
+          year: today.year + 3,
           last_name: "Cauthon",
           first_name: "Matrim"
         ]

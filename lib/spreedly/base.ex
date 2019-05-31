@@ -74,7 +74,8 @@ defmodule Spreedly.Base do
   defp reason_phrase(status_code) do
     statuses = %{
       408 => "Request Timeout See https://docs.spreedly.com/reference/api/v1/#408-request-timeout",
-      429 => "Too many requests, rate limit exceeded. See https://docs.spreedly.com/reference/api/v1/#429-too-many-requests",
+      429 =>
+        "Too many requests, rate limit exceeded. See https://docs.spreedly.com/reference/api/v1/#429-too-many-requests",
       500 => "Internal Server Error",
       501 => "Not Implemented",
       502 => "Bad Gateway",

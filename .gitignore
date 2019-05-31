@@ -6,3 +6,4 @@ erl_crash.dump
 /doc
 .tool-versions*
 /.elixir_ls
+config/test.secret.exs
