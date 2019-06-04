@@ -100,13 +100,13 @@ iex> Spreedly.find_transaction(env, "NonExistentToken")
 
 We're happy to consider [pull requests](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
 
-To help ensure a consistent code style and passing tests, we ask that you execute `script/test` before submitting the PR. The test script runs Credo, Dialyzer and the remote test suite. To run the remote test suite, the `config/test.secret.exs` file must have valid Spreedly credentials.
+To help ensure a consistent code style and passing tests, we ask that you execute `script/test` before submitting the PR. The test script runs Credo, Dialyzer and the remote test suite. To run the remote test suite, the `config/test.secret.exs` file must have valid Spreedly credentials:
 
-Upon success, it will output a message like:
-
-`Successful Full Test Suite Run at 2018-03-09 20:52:15`
-
-Include the success message output as the last line in the commit message for the pull request.
+```
+config :spreedly,
+  environment_key: "<Your Environment Key",
+  access_secret: "Your Access Secret"
+```
 
 ### Example script/test output
 
@@ -141,6 +141,4 @@ Finished in 9.8 seconds
 78 tests, 0 failures
 
 Randomized with seed 25230
-
-Successful Full Test Suite Run at 2018-03-09 20:52:15
 ```

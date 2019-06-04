@@ -1,8 +1,9 @@
 defmodule Remote.Environment.Case do
   defmacro __using__(_opts) do
     quote do
-      @moduletag [:remote]
       use ExUnit.Case, async: true
+
+      @moduletag :remote
 
       alias Spreedly.Environment
       alias Spreedly

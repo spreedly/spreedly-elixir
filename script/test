@@ -6,5 +6,3 @@ mix format mix.exs "{lib,test,config,priv}/**/*.{ex,exs}" "mix.exs" --check-form
 mix credo --strict
 mix dialyzer
 mix test --include remote
-
-echo -e `date +"\n\nSuccessful Full Test Suite Run at %Y-%m-%d %H:%M:%S\n"`
