@@ -64,6 +64,39 @@ defmodule Spreedly.RequestBody do
     |> Poison.encode!()
   end
 
+  def dispatch_body(gateway_token, payment_method_token, amount, currency_code, options) do
+    %{
+      dispatch: %{
+        type: "failover",
+        transactions: [
+          %{
+            gateway_key: gateway_token,
+            transaction_type: "purchase",
+            transaction:
+              %{
+                amount: amount,
+                currency_code: currency_code,
+                payment_method_token: payment_method_token
+              }
+              |> Map.merge(Map.new(options))
+          },
+          %{
+            gateway_key: gateway_token,
+            transaction_type: "authorize",
+            transaction:
+              %{
+                amount: amount,
+                currency_code: currency_code,
+                payment_method_token: payment_method_token
+              }
+              |> Map.merge(Map.new(options))
+          }
+        ]
+      }
+    }
+    |> Poison.encode!()
+  end
+
   def store_payment_method_body(payment_method_token) do
     %{
       transaction: %{

@@ -158,6 +158,15 @@ defmodule Spreedly do
     post_request(env, verify_path(gateway_token), verify_body(payment_method_token, currency_code, options))
   end
 
+  @spec dispatch(Environment.t(), String.t(), String.t(), String.t() | nil, Keyword.t()) :: {:ok, any} | {:error, any}
+  def dispatch(env, gateway_token, payment_method_token, amount, currency_code \\ "USD", options \\ []) do
+    post_request(
+      env,
+      dispatch_path(),
+      dispatch_body(gateway_token, payment_method_token, amount, currency_code, options)
+    )
+  end
+
   @spec show_gateway(Environment.t(), String.t()) :: {:ok, any} | {:error, any}
   def show_gateway(env, gateway_token) do
     get_request(env, show_gateway_path(gateway_token))
@@ -181,6 +190,11 @@ defmodule Spreedly do
   @spec show_transcript(Environment.t(), String.t()) :: {:ok, any} | {:error, any}
   def show_transcript(env, transaction_token) do
     get_request(env, show_transcript_path(transaction_token), [], &transcript_response/1)
+  end
+
+  @spec show_dispatch(Environment.t(), String.t()) :: {:ok, any} | {:error, any}
+  def show_dispatch(env, dispatch_token) do
+    get_request(env, show_dispatch_path(dispatch_token))
   end
 
   @doc """

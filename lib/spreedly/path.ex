@@ -21,6 +21,10 @@ defmodule Spreedly.Path do
     "/gateways/#{gateway_token}/verify.json"
   end
 
+  def dispatch_path do
+    "/dispatches.json"
+  end
+
   def capture_path(transaction_token) do
     "/transactions/#{transaction_token}/capture.json"
   end
@@ -51,6 +55,10 @@ defmodule Spreedly.Path do
 
   def show_transcript_path(token) do
     "/transactions/#{token}/transcript"
+  end
+
+  def show_dispatch_path(token) do
+    "/dispatches/#{token}.json"
   end
 
   def add_payment_method_path do

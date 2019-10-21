@@ -3,7 +3,7 @@ defmodule Remote.Environment.Case do
     quote do
       use ExUnit.Case, async: true
 
-      @moduletag :remote
+      @moduletag remote: true
 
       alias Spreedly.Environment
       alias Spreedly
@@ -63,6 +63,11 @@ defmodule Remote.Environment.Case do
       defp create_auth_transaction do
         {:ok, trans} = Spreedly.authorization(env(), create_test_gateway().token, create_test_card().token, 100)
         trans
+      end
+
+      defp create_dispatch do
+        {:ok, dispatch} = Spreedly.dispatch(env(), create_test_gateway().token, create_test_card().token, 100)
+        dispatch
       end
     end
   end
