@@ -1,7 +1,5 @@
 defmodule Remote.ShowDispatchTest do
   use Remote.Environment.Case
-  @moduletag remote: false
-  @moduletag :dispatch
 
   test "invalid credentials" do
     bogus_env = Environment.new("invalid", "credentials")

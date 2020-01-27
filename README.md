@@ -104,8 +104,8 @@ To help ensure a consistent code style and passing tests, we ask that you execut
 
 ```
 config :spreedly,
-  environment_key: "<Your Environment Key",
-  access_secret: "Your Access Secret"
+  environment_key: "<Your Environment Key>",
+  access_secret: "<Your Access Secret>"
 ```
 
 ### Example script/test output

@@ -6,7 +6,7 @@ defmodule Spreedly.Base do
   alias Spreedly.Environment
 
   @spec get_request(Environment.t() | nil, String.t(), Keyword.t(), (any -> any)) :: {:ok, any} | {:error, any}
-  def get_request(env, path, params \\ [], response_callback \\ &process_response/1) do
+  def get_request(env, path, params \\ [], response_callback \\ &do_process_response/1) do
     api_request(:get, env, path, "", [params: params], response_callback)
   end
 
@@ -22,7 +22,7 @@ defmodule Spreedly.Base do
 
   @spec api_request(atom, Environment.t() | nil, String.t(), any, Keyword.t(), (any -> any)) ::
           {:ok, any} | {:error, any}
-  defp api_request(method, env, path, body, options \\ [], response_callback \\ &process_response/1) do
+  defp api_request(method, env, path, body, options \\ [], response_callback \\ &do_process_response/1) do
     method
     |> request(path, body, headers(env), [{:recv_timeout, receive_timeout()} | options])
     |> response_callback.()
@@ -38,29 +38,28 @@ defmodule Spreedly.Base do
       Application.get_env(:spreedly, :base_url)
 
   """
-  @spec process_url(path :: binary) :: binary
   def process_url(path) do
     base_url() <> path
   end
 
-  @spec process_response({:ok, Response.t() | AsyncResponse.t()} | {:error, Error.t()}) :: {:ok, any} | {:error, any}
-  defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201, 202] do
+  @spec do_process_response({:ok, Response.t() | AsyncResponse.t()} | {:error, Error.t()}) :: {:ok, any} | {:error, any}
+  defp do_process_response({:ok, %Response{status_code: code, body: body}}) when code in [200, 201, 202] do
     ok_response(body)
   end
 
-  defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [401, 402, 404] do
+  defp do_process_response({:ok, %Response{status_code: code, body: body}}) when code in [401, 402, 404] do
     error_response(body)
   end
 
-  defp process_response({:ok, %Response{status_code: code, body: body}}) when code in [422, 403] do
+  defp do_process_response({:ok, %Response{status_code: code, body: body}}) when code in [422, 403] do
     unprocessable(body)
   end
 
-  defp process_response({:ok, %Response{status_code: code}}) when code in [408, 429, 500, 501, 502, 503, 504] do
+  defp do_process_response({:ok, %Response{status_code: code}}) when code in [408, 429, 500, 501, 502, 503, 504] do
     {:error, "#{code} #{reason_phrase(code)}"}
   end
 
-  defp process_response({:error, %Error{reason: reason}}) do
+  defp do_process_response({:error, %Error{reason: reason}}) do
     {:error, reason}
   end
 
@@ -110,7 +109,7 @@ defmodule Spreedly.Base do
     Poison.decode!(body, keys: :atoms)
   end
 
-  @spec headers(Environment.t()) :: headers
+  @spec headers(Environment.t() | nil) :: headers
   defp headers(nil), do: [content_type()]
 
   defp headers(env) do
